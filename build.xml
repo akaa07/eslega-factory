@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Factory" default="clean" basedir=".">
+    <dirname property="base" file="${ant.file}"/>
+
+    <!-- JARファイル名 -->
+    <property name="jarname" value="Factory" />
+
+    <!-- ZIPファイル名 -->
+    <property name="zipname" value="AntZip" />
+
+    <!-- ビルド成果物ディレクトリ -->
+    <property name="dir.target" value="target" />
+    <property name="dir.target.classes" value="${dir.target}/classes" />
+    <property name="dir.target.dependency" value="${dir.target}/dependency" />
+
+    <!-- srcディレクトリ -->
+    <property name="dir.src" value="src/main" />
+
+    <!-- libディレクトリ -->
+    <property name="dir.lib" value="lib" />
+
+    <!-- ソースファイルエンコード -->
+    <property name="src.enc" value="UTF-8" />
+
+    <!-- クラスパス -->
+    <path id="build.lib">
+        <fileset dir="${dir.lib}" >
+            <include name="*" />
+        </fileset>
+    </path>
+
+    <!-- JARファイル作成 -->
+    <target name="makeJar" description="JARファイル作成">
+        <!-- 作業用ディレクトリのcleanup -->
+        <antcall target="clean"/>
+        <antcall target="compile"/>
+        <echo message="JARファイルを作成します。" />
+        <jar basedir="${dir.target.classes}" destfile="${base}/${dir.target}/${jarname}.jar" />
+        <antcall target="filecopy"/>
+    </target>
+
+    <!-- クラスファイル以外の必要なファイルのコピー -->
+    <target name="filecopy" description="クラスファイル以外の必要なファイルのコピー">
+        <echo message="クラスファイル以外の必要なファイルのコピーを行います。" />
+
+        <!-- 古いファイルを削除 -->
+        <delete file="${dir.target.dependency}/" />
+
+        <!-- 新しいフォルダを作成 -->
+        <mkdir dir="${dir.target.dependency}" />
+
+        <!-- 依存性のあるファイルをコピー -->
+        <copy todir="${dir.target.dependency}">
+            <fileset dir="${dir.lib}">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- コンパイル -->
+    <target name="compile" description="コンパイル">
+        <echo message="コンパイルを開始します。" />
+        <mkdir dir="${dir.target.classes}"/>
+        <javac classpathref="build.lib"
+            srcdir="${dir.src}"
+            destdir="${dir.target.classes}"
+            encoding="${src.enc}"
+            source="1.6"
+            target="1.6"
+            includeAntRuntime="false"
+            debug="true"/>
+    </target>
+
+    <!-- デプロイ用ZIPファイルの作成 -->
+    <target name="makeZip" description="デプロイ用ZIPファイルの作成">
+        <echo message="成果物をZIPファイルに梱包します。" />
+        <zip destfile="${base}/${dir.target}/${zipname}.zip"
+            basedir="${dir.target}"
+            excludes="${dir.target.classes}/*"
+        />
+    </target>
+
+    <!-- ビルド成果物削除 -->
+    <target name="clean" description="ビルド成果物削除">
+        <delete dir="${dir.target}" />
+    </target>
+</project>
