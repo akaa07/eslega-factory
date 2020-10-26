@@ -1,4 +1,4 @@
-package com.eslega.factory.core;
+package com.akaa07.java.database.factory.core;
 
 import static com.ninja_squad.dbsetup.Operations.*;
 
@@ -72,7 +72,7 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	/**
 	 * テーブル定義のリストを返却します。
 	 *
-	 * @see com.eslega.factory.core.PatternBuilder#table
+	 * @see com.akaa07.java.database.factory.core.PatternBuilder#table
 	 * @param tableName
 	 * @return
 	 */
@@ -84,7 +84,7 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	/**
 	 * レコード登録を行うオペレーションオブジェクトを生成します。
 	 *
-	 * @see com.eslega.factory.core.AbstractBuilder#save
+	 * @see com.akaa07.java.database.factory.core.AbstractBuilder#save
 	 * @return
 	 */
 	public Operation build()
@@ -112,8 +112,8 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	/**
 	 * 現在設定されている属性値を取得します。
 	 *
-	 * @see com.eslega.factory.core.AbstractBuilder#save
-	 * @see com.eslega.factory.core.AbstractBuilder#make
+	 * @see com.akaa07.java.database.factory.core.AbstractBuilder#save
+	 * @see com.akaa07.java.database.factory.core.AbstractBuilder#make
 	 * @return
 	 */
 	public PatternData getValues()

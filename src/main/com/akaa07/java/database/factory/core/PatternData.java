@@ -1,4 +1,4 @@
-package com.eslega.factory.core;
+package com.akaa07.java.database.factory.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;

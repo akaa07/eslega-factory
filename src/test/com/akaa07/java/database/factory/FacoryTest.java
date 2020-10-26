@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.eslega.factory;
+package com.akaa07.java.database.factory;
 
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -19,11 +19,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.eslega.factory.core.PatternData;
-import com.eslega.factory.core.TableData;
-import com.eslega.factory.patterns.CompanyPattern;
-import com.eslega.factory.tables.Department;
-import com.eslega.factory.tables.Employee;
+import com.akaa07.java.database.factory.core.PatternData;
+import com.akaa07.java.database.factory.core.TableData;
+import com.akaa07.java.database.factory.patterns.CompanyPattern;
+import com.akaa07.java.database.factory.tables.Department;
+import com.akaa07.java.database.factory.tables.Employee;
 
 /**
  *

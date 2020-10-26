@@ -1,6 +1,6 @@
-package com.eslega.factory.tables;
+package com.akaa07.java.database.factory.tables;
 
-import com.eslega.factory.core.TableDefine;
+import com.akaa07.java.database.factory.core.TableDefine;
 
 public class Employee extends TableDefine
 {

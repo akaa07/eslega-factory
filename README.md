@@ -19,7 +19,7 @@ Create a table definition that you want to use in the test.
 ```
 package your.project.package.tables;
 
-import com.eslega.factory.core.TableDefine;
+import com.akaa07.java.database.factory.core.TableDefine;
 
 public class Employee extends TableDefine
 {

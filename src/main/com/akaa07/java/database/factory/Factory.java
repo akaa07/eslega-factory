@@ -1,11 +1,11 @@
-package com.eslega.factory;
+package com.akaa07.java.database.factory;
 
 import javax.sql.DataSource;
 
-import com.eslega.factory.core.PatternBuilder;
-import com.eslega.factory.core.PatternDefine;
-import com.eslega.factory.core.TableBuilder;
-import com.eslega.factory.core.TableDefine;
+import com.akaa07.java.database.factory.core.PatternBuilder;
+import com.akaa07.java.database.factory.core.PatternDefine;
+import com.akaa07.java.database.factory.core.TableBuilder;
+import com.akaa07.java.database.factory.core.TableDefine;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 
 public class Factory

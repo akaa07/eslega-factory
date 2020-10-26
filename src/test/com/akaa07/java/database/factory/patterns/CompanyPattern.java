@@ -1,8 +1,8 @@
-package com.eslega.factory.patterns;
+package com.akaa07.java.database.factory.patterns;
 
-import com.eslega.factory.core.PatternDefine;
-import com.eslega.factory.tables.Department;
-import com.eslega.factory.tables.Employee;
+import com.akaa07.java.database.factory.core.PatternDefine;
+import com.akaa07.java.database.factory.tables.Department;
+import com.akaa07.java.database.factory.tables.Employee;
 
 public class CompanyPattern extends PatternDefine
 {
