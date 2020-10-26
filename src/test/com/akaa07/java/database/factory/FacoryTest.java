@@ -74,8 +74,8 @@ public class FacoryTest
 //	@Test(expected = IllegalStateException.class)
 //	public void shouldThrowExceptionWhenDatasourceNotInitialize() throws Exception
 //	{
-//		// Factory.setDataSource(datasource);
-//		Factory.table(Employee.class).save();
+//		// Factory factory = new Factory(datasource);
+//		factory.table(Employee.class).save();
 //	}
 
 	/**
@@ -86,8 +86,9 @@ public class FacoryTest
 	@Test
 	public void tableTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
-		TableData result = Factory.table(Employee.class).save();
+		Factory factory = new Factory(datasource);
+
+		TableData result = factory.table(Employee.class).save();
 
 		Assert.assertNotNull(result.getString(Employee.ID));
 		Assert.assertNotNull(result.getString(Employee.DEPARTMENT_ID));
@@ -102,8 +103,8 @@ public class FacoryTest
 	@Test
 	public void tableMakeTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
-		TableData result = Factory.table(Employee.class).make();
+		Factory factory = new Factory(datasource);
+		TableData result = factory.table(Employee.class).make();
 
 		Assert.assertNotNull(result.getString(Employee.ID));
 		Assert.assertNotNull(result.getString(Employee.DEPARTMENT_ID));
@@ -119,9 +120,9 @@ public class FacoryTest
 	@Test
 	public void tableChangeColumnValueTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
+		Factory factory = new Factory(datasource);
 		String changedName = "Changed Name";
-		TableData result = Factory.table(Employee.class)
+		TableData result = factory.table(Employee.class)
 				.column(Employee.DEPARTMENT_ID, null)
 				.column(Employee.NAME, changedName)
 				.column(Employee.GENDER, 1)
@@ -142,14 +143,14 @@ public class FacoryTest
 	@Test
 	public void tableChangeColumnValuesTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
+		Factory factory = new Factory(datasource);
 		HashMap<String, String> changedValues = new HashMap<String, String>();
 		String changedName = "Changed Name";
 		String changedDepartmentId = "123";
 		changedValues.put(Employee.DEPARTMENT_ID, changedDepartmentId);
 		changedValues.put(Employee.NAME, changedName);
 
-		TableData result = Factory.table(Employee.class)
+		TableData result = factory.table(Employee.class)
 				.column(changedValues)
 				.save();
 
@@ -167,14 +168,14 @@ public class FacoryTest
 	@Test
 	public void tableSetStateWithChangedValuesTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
+		Factory factory = new Factory(datasource);
 		HashMap<String, String> changedValues = new HashMap<String, String>();
 		String changedName = "Changed Name";
 		String changedDepartmentId = "123";
 		changedValues.put(Employee.DEPARTMENT_ID, changedDepartmentId);
 		changedValues.put(Employee.NAME, changedName);
 
-		TableData result = Factory.table(Employee.class)
+		TableData result = factory.table(Employee.class)
 				.state("TemporaryRegistration", changedValues)
 				.save();
 
@@ -191,8 +192,8 @@ public class FacoryTest
 	@Test
 	public void patternTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
-		PatternData result = Factory.pattern(CompanyPattern.class).save();
+		Factory factory = new Factory(datasource);
+		PatternData result = factory.pattern(CompanyPattern.class).save();
 
 		Assert.assertEquals(2, result.getRecords(Employee.TABLE_NAME).size());
 		Assert.assertEquals(1, result.getRecords(Department.TABLE_NAME).size());
@@ -207,8 +208,8 @@ public class FacoryTest
 	@Test
 	public void patternMakeTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
-		PatternData result = Factory.pattern(CompanyPattern.class).make();
+		Factory factory = new Factory(datasource);
+		PatternData result = factory.pattern(CompanyPattern.class).make();
 
 		Assert.assertEquals(2, result.getRecords(Employee.TABLE_NAME).size());
 		Assert.assertEquals(1, result.getRecords(Department.TABLE_NAME).size());
@@ -223,8 +224,8 @@ public class FacoryTest
 	@Test
 	public void patternSetStateTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
-		PatternData result = Factory.pattern(CompanyPattern.class).state("single").save();
+		Factory factory = new Factory(datasource);
+		PatternData result = factory.pattern(CompanyPattern.class).state("single").save();
 
 		Assert.assertEquals(1, result.getRecords(Employee.TABLE_NAME).size());
 		Assert.assertEquals(1, result.getRecords(Department.TABLE_NAME).size());
@@ -239,8 +240,8 @@ public class FacoryTest
 	@Test
 	public void patternChangeTableSingleRowTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
-		PatternData result = Factory.pattern(CompanyPattern.class)
+		Factory factory = new Factory(datasource);
+		PatternData result = factory.pattern(CompanyPattern.class)
 				.state("single")
 				.table(Employee.class)
 					.column(Employee.NAME, null)
@@ -261,12 +262,12 @@ public class FacoryTest
 	@Test
 	public void patternChangeTableSingleRowByMapTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
+		Factory factory = new Factory(datasource);
 		HashMap<String, String> changedValues = new HashMap<String, String>();
 		String changedName = "Changed Name";
 		changedValues.put(Employee.NAME, changedName);
 
-		PatternData result = Factory.pattern(CompanyPattern.class)
+		PatternData result = factory.pattern(CompanyPattern.class)
 				.state("single")
 				.table(Employee.class)
 					.column(changedValues)
@@ -287,12 +288,12 @@ public class FacoryTest
 	@Test
 	public void patternChangeTableMuiltiRowTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
+		Factory factory = new Factory(datasource);
 		HashMap<String, String> changedValues = new HashMap<String, String>();
 		String changedName = "Changed Name";
 		changedValues.put(Employee.NAME, changedName);
 
-		PatternData result = Factory.pattern(CompanyPattern.class)
+		PatternData result = factory.pattern(CompanyPattern.class)
 				.table(Employee.class)
 					.row(0)
 						.column(Employee.NAME, null)
