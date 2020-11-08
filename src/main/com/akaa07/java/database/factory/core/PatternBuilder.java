@@ -10,9 +10,6 @@ public class PatternBuilder extends AbstractBuilder<PatternData>
 	/** パターン定義 */
 	private PatternDefine def = null;
 
-	/** データセットのスタック */
-	private StackBox stackbox = null;
-
 	/**
 	 * コンストラクタ
 	 *
@@ -25,9 +22,6 @@ public class PatternBuilder extends AbstractBuilder<PatternData>
 			throws Exception
 	{
 		this.dest = destination;
-
-		this.stackbox = stackbox;
-
 		this.def = (PatternDefine) PatternDefine.forClass(defineClass, stackbox);
 	}
 
@@ -41,7 +35,6 @@ public class PatternBuilder extends AbstractBuilder<PatternData>
 		return def;
 	}
 
-
 	/**
 	 * データセットを蓄積し、データビルドを終了します。
 	 *
@@ -49,7 +42,7 @@ public class PatternBuilder extends AbstractBuilder<PatternData>
 	 */
 	public void stack()
 	{
-		stackbox.stack(this);
+		def.stackbox.stack(this);
 	}
 
 	/**
@@ -62,7 +55,7 @@ public class PatternBuilder extends AbstractBuilder<PatternData>
 	 */
 	public Table table(Class<? extends TableDefine> defineClass) throws Exception
 	{
-		TableDefine tableDef = (TableDefine)TableDefine.forClass(defineClass, stackbox);
+		TableDefine tableDef = (TableDefine)TableDefine.forClass(defineClass, def.stackbox);
 		return new Table(this, def.getTableDefineList(tableDef.getTableName()));
 	}
 

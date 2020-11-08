@@ -9,9 +9,6 @@ public class TableBuilder extends AbstractBuilder<TableData>
 	/** テーブル定義 */
 	private TableDefine def = null;
 
-	/** データセットのスタック */
-	private StackBox stackbox = null;
-
 	/**
 	 * コンストラクタ
 	 *
@@ -23,9 +20,6 @@ public class TableBuilder extends AbstractBuilder<TableData>
 	public TableBuilder(DataSourceDestination destination, Class<? extends TableDefine> defineClass, StackBox stackbox) throws Exception
 	{
 		this.dest = destination;
-
-		this.stackbox = stackbox;
-
 		this.def = (TableDefine) TableDefine.forClass(defineClass, stackbox);
 	}
 
@@ -63,7 +57,7 @@ public class TableBuilder extends AbstractBuilder<TableData>
 	 */
 	public void stack()
 	{
-		stackbox.stack(this);
+		def.stackbox.stack(this);
 	}
 
 	/**
