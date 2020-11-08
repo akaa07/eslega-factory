@@ -1,6 +1,6 @@
-package com.eslega.factory.tables;
+package com.akaa07.java.database.factory.tables;
 
-import com.eslega.factory.core.TableDefine;
+import com.akaa07.java.database.factory.core.TableDefine;
 
 public class Employee extends TableDefine
 {
@@ -24,8 +24,15 @@ public class Employee extends TableDefine
 
 	public void status_default()
 	{
+		String departmentId = this.fakerRegexify("[a-z0-9]{5}");
+
+		if (this.stackbox.contains(Department.TABLE_NAME))
+		{
+			departmentId = this.stackbox.getTable(Department.TABLE_NAME).get(0).getString(Department.ID);
+		}
+
 		this.column(Employee.ID, this.fakerRegexify("[a-z0-9]{10}"))
-			.column(Employee.DEPARTMENT_ID, this.fakerRegexify("[a-z0-9]{5}"))
+			.column(Employee.DEPARTMENT_ID, departmentId)
 			.column(Employee.NAME, faker.name().fullName())
 			.column(Employee.GENDER, 0);
 	}

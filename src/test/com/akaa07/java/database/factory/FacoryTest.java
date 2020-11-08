@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.eslega.factory;
+package com.akaa07.java.database.factory;
 
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -19,11 +19,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.eslega.factory.core.PatternData;
-import com.eslega.factory.core.TableData;
-import com.eslega.factory.patterns.CompanyPattern;
-import com.eslega.factory.tables.Department;
-import com.eslega.factory.tables.Employee;
+import com.akaa07.java.database.factory.core.RelationData;
+import com.akaa07.java.database.factory.core.TableData;
+import com.akaa07.java.database.factory.relations.CompanyRelation;
+import com.akaa07.java.database.factory.relations.ProjectRelation;
+import com.akaa07.java.database.factory.tables.Department;
+import com.akaa07.java.database.factory.tables.Employee;
+import com.akaa07.java.database.factory.tables.Project;
+import com.akaa07.java.database.factory.tables.ProjectMember;
 
 /**
  *
@@ -74,8 +77,8 @@ public class FacoryTest
 //	@Test(expected = IllegalStateException.class)
 //	public void shouldThrowExceptionWhenDatasourceNotInitialize() throws Exception
 //	{
-//		// Factory.setDataSource(datasource);
-//		Factory.table(Employee.class).save();
+//		// Factory factory = new Factory(datasource);
+//		factory.table(Employee.class).save();
 //	}
 
 	/**
@@ -86,8 +89,9 @@ public class FacoryTest
 	@Test
 	public void tableTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
-		TableData result = Factory.table(Employee.class).save();
+		Factory factory = new Factory(datasource);
+
+		TableData result = factory.table(Employee.class).save();
 
 		Assert.assertNotNull(result.getString(Employee.ID));
 		Assert.assertNotNull(result.getString(Employee.DEPARTMENT_ID));
@@ -102,8 +106,8 @@ public class FacoryTest
 	@Test
 	public void tableMakeTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
-		TableData result = Factory.table(Employee.class).make();
+		Factory factory = new Factory(datasource);
+		TableData result = factory.table(Employee.class).make();
 
 		Assert.assertNotNull(result.getString(Employee.ID));
 		Assert.assertNotNull(result.getString(Employee.DEPARTMENT_ID));
@@ -119,9 +123,9 @@ public class FacoryTest
 	@Test
 	public void tableChangeColumnValueTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
+		Factory factory = new Factory(datasource);
 		String changedName = "Changed Name";
-		TableData result = Factory.table(Employee.class)
+		TableData result = factory.table(Employee.class)
 				.column(Employee.DEPARTMENT_ID, null)
 				.column(Employee.NAME, changedName)
 				.column(Employee.GENDER, 1)
@@ -142,14 +146,14 @@ public class FacoryTest
 	@Test
 	public void tableChangeColumnValuesTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
+		Factory factory = new Factory(datasource);
 		HashMap<String, String> changedValues = new HashMap<String, String>();
 		String changedName = "Changed Name";
 		String changedDepartmentId = "123";
 		changedValues.put(Employee.DEPARTMENT_ID, changedDepartmentId);
 		changedValues.put(Employee.NAME, changedName);
 
-		TableData result = Factory.table(Employee.class)
+		TableData result = factory.table(Employee.class)
 				.column(changedValues)
 				.save();
 
@@ -167,14 +171,14 @@ public class FacoryTest
 	@Test
 	public void tableSetStateWithChangedValuesTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
+		Factory factory = new Factory(datasource);
 		HashMap<String, String> changedValues = new HashMap<String, String>();
 		String changedName = "Changed Name";
 		String changedDepartmentId = "123";
 		changedValues.put(Employee.DEPARTMENT_ID, changedDepartmentId);
 		changedValues.put(Employee.NAME, changedName);
 
-		TableData result = Factory.table(Employee.class)
+		TableData result = factory.table(Employee.class)
 				.state("TemporaryRegistration", changedValues)
 				.save();
 
@@ -184,15 +188,15 @@ public class FacoryTest
 	}
 
 	/**
-	 * パターン定義からデータを登録できること。
+	 * リレーション定義からデータを登録できること。
 	 *
 	 * @throws Exception
 	 */
 	@Test
-	public void patternTest() throws Exception
+	public void relationTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
-		PatternData result = Factory.pattern(CompanyPattern.class).save();
+		Factory factory = new Factory(datasource);
+		RelationData result = factory.relation(CompanyRelation.class).save();
 
 		Assert.assertEquals(2, result.getRecords(Employee.TABLE_NAME).size());
 		Assert.assertEquals(1, result.getRecords(Department.TABLE_NAME).size());
@@ -200,15 +204,15 @@ public class FacoryTest
 	}
 
 	/**
-	 * パターン定義からデータを生成できること。
+	 * リレーション定義からデータを生成できること。
 	 *
 	 * @throws Exception
 	 */
 	@Test
-	public void patternMakeTest() throws Exception
+	public void relationMakeTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
-		PatternData result = Factory.pattern(CompanyPattern.class).make();
+		Factory factory = new Factory(datasource);
+		RelationData result = factory.relation(CompanyRelation.class).make();
 
 		Assert.assertEquals(2, result.getRecords(Employee.TABLE_NAME).size());
 		Assert.assertEquals(1, result.getRecords(Department.TABLE_NAME).size());
@@ -216,31 +220,31 @@ public class FacoryTest
 	}
 
 	/**
-	 * パターン定義から特定の状態のデータを生成できること。
+	 * リレーション定義から特定の状態のデータを生成できること。
 	 *
 	 * @throws Exception
 	 */
 	@Test
-	public void patternSetStateTest() throws Exception
+	public void relationSetStateTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
-		PatternData result = Factory.pattern(CompanyPattern.class).state("single").save();
+		Factory factory = new Factory(datasource);
+		RelationData result = factory.relation(CompanyRelation.class).state("single").save();
 
 		Assert.assertEquals(1, result.getRecords(Employee.TABLE_NAME).size());
 		Assert.assertEquals(1, result.getRecords(Department.TABLE_NAME).size());
 	}
 
 	/**
-	 * パターン定義からデータを生成し、
+	 * リレーション定義からデータを生成し、
 	 * 1レコード目の情報を変更できること。
 	 *
 	 * @throws Exception
 	 */
 	@Test
-	public void patternChangeTableSingleRowTest() throws Exception
+	public void relationChangeTableSingleRowTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
-		PatternData result = Factory.pattern(CompanyPattern.class)
+		Factory factory = new Factory(datasource);
+		RelationData result = factory.relation(CompanyRelation.class)
 				.state("single")
 				.table(Employee.class)
 					.column(Employee.NAME, null)
@@ -253,20 +257,20 @@ public class FacoryTest
 	}
 
 	/**
-	 * パターン定義からデータを生成し、
+	 * リレーション定義からデータを生成し、
 	 * 1レコード目の情報をマップを用いて変更できること。
 	 *
 	 * @throws Exception
 	 */
 	@Test
-	public void patternChangeTableSingleRowByMapTest() throws Exception
+	public void relationChangeTableSingleRowByMapTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
+		Factory factory = new Factory(datasource);
 		HashMap<String, String> changedValues = new HashMap<String, String>();
 		String changedName = "Changed Name";
 		changedValues.put(Employee.NAME, changedName);
 
-		PatternData result = Factory.pattern(CompanyPattern.class)
+		RelationData result = factory.relation(CompanyRelation.class)
 				.state("single")
 				.table(Employee.class)
 					.column(changedValues)
@@ -279,20 +283,20 @@ public class FacoryTest
 	}
 
 	/**
-	 * パターン定義からデータを生成し、
+	 * リレーション定義からデータを生成し、
 	 * 複数行の情報を変更できること。
 	 *
 	 * @throws Exception
 	 */
 	@Test
-	public void patternChangeTableMuiltiRowTest() throws Exception
+	public void relationChangeTableMuiltiRowTest() throws Exception
 	{
-		Factory.setDataSource(datasource);
+		Factory factory = new Factory(datasource);
 		HashMap<String, String> changedValues = new HashMap<String, String>();
 		String changedName = "Changed Name";
 		changedValues.put(Employee.NAME, changedName);
 
-		PatternData result = Factory.pattern(CompanyPattern.class)
+		RelationData result = factory.relation(CompanyRelation.class)
 				.table(Employee.class)
 					.row(0)
 						.column(Employee.NAME, null)
@@ -307,5 +311,104 @@ public class FacoryTest
 		Assert.assertEquals(1, result.getRecords(Department.TABLE_NAME).size());
 		Assert.assertNull(result.getRecords(Employee.TABLE_NAME).get(0).getString(Employee.NAME));
 		Assert.assertEquals(changedName, result.getRecords(Employee.TABLE_NAME).get(1).getString(Employee.NAME));
+	}
+
+	/**
+	 * 複数のリレーション定義からリレーションのあるデータを登録できること。
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void multipleRelationTest() throws Exception
+	{
+		Factory factory = new Factory(datasource);
+		factory.relation(CompanyRelation.class).stack();
+		factory.relation(ProjectRelation.class).stack();
+		RelationData testdata = factory.save();
+
+		Assert.assertNotNull(testdata.getRecords(Employee.TABLE_NAME));
+		Assert.assertNotNull(testdata.getRecords(Department.TABLE_NAME));
+		Assert.assertNotNull(testdata.getRecords(Project.TABLE_NAME));
+		Assert.assertNotNull(testdata.getRecords(ProjectMember.TABLE_NAME));
+
+		Assert.assertEquals(testdata.getRecords(Department.TABLE_NAME).get(0).getString(Department.ID), testdata.getRecords(Project.TABLE_NAME).get(0).getString(Project.DEPARTMENT_ID));
+		Assert.assertEquals(testdata.getRecords(Employee.TABLE_NAME).get(0).getString(Employee.ID), testdata.getRecords(ProjectMember.TABLE_NAME).get(0).getString(ProjectMember.EMPLOYEE_ID));
+	}
+
+	/**
+	 * スタックしたデータをクリアできること。
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void stackFlushTest() throws Exception
+	{
+		Factory factory = new Factory(datasource);
+		factory.relation(CompanyRelation.class).stack();
+		factory.flush();
+		factory.relation(ProjectRelation.class).stack();
+		RelationData testdata = factory.save();
+
+		Assert.assertNull(testdata.getRecords(Employee.TABLE_NAME));
+		Assert.assertNull(testdata.getRecords(Department.TABLE_NAME));
+		Assert.assertNotNull(testdata.getRecords(Project.TABLE_NAME));
+		Assert.assertNotNull(testdata.getRecords(ProjectMember.TABLE_NAME));
+	}
+
+	/**
+	 * テーブルをスタックできること。
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void stackTableTest() throws Exception
+	{
+		Factory factory = new Factory(datasource);
+		factory.table(Department.class).stack();
+		factory.table(Employee.class).stack();
+		factory.table(Employee.class).stack();
+		factory.table(Employee.class).stack();
+		RelationData testdata = factory.save();
+
+		Assert.assertNotNull(testdata.getRecords(Employee.TABLE_NAME));
+		Assert.assertEquals(3, testdata.getRecords(Employee.TABLE_NAME).size());
+	}
+
+	/**
+	 * テーブルをスタックできること。
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void stackGetKeysTest() throws Exception
+	{
+		Factory factory = new Factory(datasource);
+		factory.table(Project.class).column(Project.ID, "").stack();
+		factory.table(Project.class).column(Project.ID, null).stack();
+		factory.table(Project.class).column(Project.ID, "aaa").stack();
+		factory.table(ProjectMember.class).stack();
+		RelationData testdata = factory.save();
+
+		Assert.assertNotNull(testdata.getRecords(Project.TABLE_NAME));
+		Assert.assertNotNull(testdata.getRecords(ProjectMember.TABLE_NAME));
+		Assert.assertEquals(3, testdata.getRecords(Project.TABLE_NAME).size());
+		Assert.assertEquals(testdata.getRecords(Project.TABLE_NAME).get(2).getString(Project.ID), testdata.getRecords(ProjectMember.TABLE_NAME).get(0).getString(ProjectMember.PROJECT_ID));
+	}
+
+	/**
+	 * リレーション定義からデータを生成できること。
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void relationMakeWithStackTest() throws Exception
+	{
+		Factory factory = new Factory(datasource);
+		factory.relation(CompanyRelation.class).stack();
+		RelationData result = factory.make();
+
+		Assert.assertEquals(2, result.getRecords(Employee.TABLE_NAME).size());
+		Assert.assertEquals(1, result.getRecords(Department.TABLE_NAME).size());
+		Assert.assertEquals(Employee.TABLE_NAME, result.getRecords(Employee.TABLE_NAME).get(0).getTableName());
 	}
 }
