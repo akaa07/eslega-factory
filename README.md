@@ -66,7 +66,7 @@ public class Employee extends TableDefine
 	{
 		// Set the data source in advance.
  		// It is convenient to set with common initial processing.
-		Factory.setDataSource(datasource);
+		Factory factory = new Factory(datasource);
 		
 		// Data is generated with the contents set in "status_default".
 		// You can customize the data with the "column" method.
