@@ -7,20 +7,28 @@ import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 
 public class PatternBuilder extends AbstractBuilder<PatternData>
 {
-	/** テーブル定義 */
+	/** パターン定義 */
 	private PatternDefine def = null;
+
+	/** データセットのスタック */
+	private StackBox stackbox = null;
 
 	/**
 	 * コンストラクタ
 	 *
+	 * @param destination	データソース
+	 * @param defineClass	パターン定義クラス
+	 * @param stackbox		データセットのスタック
 	 * @return void
 	 */
-	public PatternBuilder(DataSourceDestination destination, Class<? extends AbstractDefine<PatternData>> defineClass)
+	public PatternBuilder(DataSourceDestination destination, Class<? extends AbstractDefine<PatternData>> defineClass, StackBox stackbox)
 			throws Exception
 	{
 		this.dest = destination;
 
-		this.def = (PatternDefine) PatternDefine.forClass(defineClass);
+		this.stackbox = stackbox;
+
+		this.def = (PatternDefine) PatternDefine.forClass(defineClass, stackbox);
 	}
 
 	/**
@@ -33,6 +41,17 @@ public class PatternBuilder extends AbstractBuilder<PatternData>
 		return def;
 	}
 
+
+	/**
+	 * データセットを蓄積し、データビルドを終了します。
+	 *
+	 * @return void
+	 */
+	public void stack()
+	{
+		stackbox.stack(this);
+	}
+
 	/**
 	 * テーブルのセットアップを開始します。
 	 * 終了後はendメソッドを呼び出してください。
@@ -43,7 +62,7 @@ public class PatternBuilder extends AbstractBuilder<PatternData>
 	 */
 	public Table table(Class<? extends TableDefine> defineClass) throws Exception
 	{
-		TableDefine tableDef = (TableDefine)TableDefine.forClass(defineClass);
+		TableDefine tableDef = (TableDefine)TableDefine.forClass(defineClass, stackbox);
 		return new Table(this, def.getTableDefineList(tableDef.getTableName()));
 	}
 

@@ -2,15 +2,14 @@ package com.akaa07.java.database.factory.tables;
 
 import com.akaa07.java.database.factory.core.TableDefine;
 
-public class Employee extends TableDefine
+public class Project extends TableDefine
 {
 	/** テーブル名 */
-	public final static String TABLE_NAME = "employee";
+	public final static String TABLE_NAME = "project";
 
 	public final static String ID = "id";
 	public final static String DEPARTMENT_ID = "department_id";
 	public final static String NAME = "name";
-	public final static String GENDER = "gender";
 
 	/**
 	 * テーブル名を返却します。
@@ -31,17 +30,8 @@ public class Employee extends TableDefine
 			departmentId = this.stackbox.getTable(Department.TABLE_NAME).get(0).getString(Department.ID);
 		}
 
-		this.column(Employee.ID, this.fakerRegexify("[a-z0-9]{10}"))
-			.column(Employee.DEPARTMENT_ID, departmentId)
-			.column(Employee.NAME, faker.name().fullName())
-			.column(Employee.GENDER, 0);
-	}
-
-	public void status_TemporaryRegistration()
-	{
-		this.column(Employee.ID, this.fakerRegexify("[a-z0-9]{10}"))
-			.column(Employee.DEPARTMENT_ID, null)
-			.column(Employee.NAME, null)
-			.column(Employee.GENDER, 0);
+		this.column(Project.ID, this.fakerRegexify("[a-z0-9]{10}"))
+			.column(Project.DEPARTMENT_ID, departmentId)
+			.column(Project.NAME, faker.name().fullName());
 	}
 }

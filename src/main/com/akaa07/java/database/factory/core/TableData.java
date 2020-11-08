@@ -43,6 +43,17 @@ public class TableData
 	}
 
 	/**
+	 * 指定したカラムが存在するか判定します。
+	 *
+	 * @param columnName
+	 * @return 存在する場合true
+	 */
+	protected boolean contains(String columnName)
+	{
+		return values.containsKey(columnName);
+	}
+
+	/**
 	 * 属性値をオブジェクトとして取得します。
 	 *
 	 * @param columnName
@@ -74,4 +85,6 @@ public class TableData
 	{
 		return (Integer) values.get(columnName);
 	}
+
+	// TODO せめてプリミティブ型は揃えたい
 }

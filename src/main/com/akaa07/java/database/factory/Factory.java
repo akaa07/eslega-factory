@@ -3,7 +3,9 @@ package com.akaa07.java.database.factory;
 import javax.sql.DataSource;
 
 import com.akaa07.java.database.factory.core.PatternBuilder;
+import com.akaa07.java.database.factory.core.PatternData;
 import com.akaa07.java.database.factory.core.PatternDefine;
+import com.akaa07.java.database.factory.core.StackBox;
 import com.akaa07.java.database.factory.core.TableBuilder;
 import com.akaa07.java.database.factory.core.TableDefine;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
@@ -13,6 +15,9 @@ public class Factory
 	/** データソース */
 	private DataSourceDestination destination = null;
 
+	/** テーブル定義を持ちまわる */
+	private StackBox stackbox = null;
+
 	/**
 	 * コンストラクタ
 	 *
@@ -21,6 +26,7 @@ public class Factory
 	public Factory(DataSource dataSource)
 	{
 		destination = new DataSourceDestination(dataSource);
+		stackbox = new StackBox(destination);
 	}
 
 	/**
@@ -32,7 +38,7 @@ public class Factory
 	 */
 	public TableBuilder table(Class<? extends TableDefine> defineClass) throws Exception
 	{
-		return new TableBuilder(destination, defineClass);
+		return new TableBuilder(destination, defineClass, stackbox);
 	}
 
 	/**
@@ -44,6 +50,36 @@ public class Factory
 	 */
 	public PatternBuilder pattern(Class<? extends PatternDefine> defineClass) throws Exception
 	{
-		return new PatternBuilder(destination, defineClass);
+		return new PatternBuilder(destination, defineClass, stackbox);
+	}
+
+	/**
+	 * 保持しているデータセットを破棄します。
+	 *
+	 * @return void
+	 */
+	public void flush()
+	{
+		stackbox.flush();
+	}
+
+	/**
+	 * データを登録します。
+	 *
+	 * @return 構築したデータセット
+	 */
+	public PatternData save()
+	{
+		return stackbox.save();
+	}
+
+	/**
+	 * データを作成します。
+	 *
+	 * @return 構築したデータセット
+	 */
+	public PatternData make()
+	{
+		return stackbox.make();
 	}
 }

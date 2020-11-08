@@ -10,12 +10,12 @@ import com.ninja_squad.dbsetup.operation.Operation;
 public abstract class PatternDefine extends AbstractDefine<PatternData>
 {
 	/** テーブル定義リスト */
-	private final HashMap<String, ArrayList<TableDefine>> tables;
+	protected final HashMap<String, ArrayList<TableDefine>> tables;
 
 	/**
 	 * コンストラクタ
 	 */
-	public PatternDefine()
+	protected PatternDefine()
 	{
 		tables = new HashMap<String, ArrayList<TableDefine>>();
 	}
@@ -66,7 +66,18 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	 */
 	public TableDefine table(Class<? extends TableDefine> defineClass) throws Exception
 	{
-		return (TableDefine) TableDefine.forClass(defineClass);
+		return (TableDefine) TableDefine.forClass(defineClass, stackbox);
+	}
+
+	/**
+	 * テーブル定義のリストを返却します。
+	 *
+	 * @see com.akaa07.java.database.factory.core.PatternBuilder#table
+	 * @return テーブル定義のリスト
+	 */
+	protected HashMap<String, ArrayList<TableDefine>> getTableDefineList()
+	{
+		return tables;
 	}
 
 	/**
@@ -74,7 +85,7 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	 *
 	 * @see com.akaa07.java.database.factory.core.PatternBuilder#table
 	 * @param tableName
-	 * @return
+	 * @return テーブル定義のリスト
 	 */
 	protected ArrayList<TableDefine> getTableDefineList(String tableName)
 	{
@@ -114,7 +125,7 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	 *
 	 * @see com.akaa07.java.database.factory.core.AbstractBuilder#save
 	 * @see com.akaa07.java.database.factory.core.AbstractBuilder#make
-	 * @return
+	 * @return 構築したデータセット
 	 */
 	public PatternData getValues()
 	{

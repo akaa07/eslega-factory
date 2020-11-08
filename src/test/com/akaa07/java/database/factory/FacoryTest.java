@@ -22,8 +22,11 @@ import org.junit.Test;
 import com.akaa07.java.database.factory.core.PatternData;
 import com.akaa07.java.database.factory.core.TableData;
 import com.akaa07.java.database.factory.patterns.CompanyPattern;
+import com.akaa07.java.database.factory.patterns.ProjectPattern;
 import com.akaa07.java.database.factory.tables.Department;
 import com.akaa07.java.database.factory.tables.Employee;
+import com.akaa07.java.database.factory.tables.Project;
+import com.akaa07.java.database.factory.tables.ProjectMember;
 
 /**
  *
@@ -308,5 +311,27 @@ public class FacoryTest
 		Assert.assertEquals(1, result.getRecords(Department.TABLE_NAME).size());
 		Assert.assertNull(result.getRecords(Employee.TABLE_NAME).get(0).getString(Employee.NAME));
 		Assert.assertEquals(changedName, result.getRecords(Employee.TABLE_NAME).get(1).getString(Employee.NAME));
+	}
+
+	/**
+	 * 複数のパターン定義からリレーションのあるデータを登録できること。
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void multiplePatternTest() throws Exception
+	{
+		Factory factory = new Factory(datasource);
+		factory.pattern(CompanyPattern.class).stack();
+		factory.pattern(ProjectPattern.class).stack();
+		PatternData testdata = factory.save();
+
+		Assert.assertNotNull(testdata.getRecords(Employee.TABLE_NAME));
+		Assert.assertNotNull(testdata.getRecords(Department.TABLE_NAME));
+		Assert.assertNotNull(testdata.getRecords(Project.TABLE_NAME));
+		Assert.assertNotNull(testdata.getRecords(ProjectMember.TABLE_NAME));
+
+		Assert.assertEquals(testdata.getRecords(Department.TABLE_NAME).get(0).getString(Department.ID), testdata.getRecords(Project.TABLE_NAME).get(0).getString(Project.DEPARTMENT_ID));
+		Assert.assertEquals(testdata.getRecords(Employee.TABLE_NAME).get(0).getString(Employee.ID), testdata.getRecords(ProjectMember.TABLE_NAME).get(0).getString(ProjectMember.EMPLOYEE_ID));
 	}
 }

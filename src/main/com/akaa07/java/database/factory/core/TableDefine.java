@@ -47,7 +47,7 @@ public abstract class TableDefine extends AbstractDefine<TableData>
 	 *
 	 * @param String name 列名
 	 * @param Object value 値
-	 * @return
+	 * @return テーブル定義
 	 */
 	public TableDefine column(String name, Object value)
 	{
@@ -63,7 +63,7 @@ public abstract class TableDefine extends AbstractDefine<TableData>
 	 * レコードの属性値を設定します。
 	 *
 	 * @param HashMap<String, Object> データセット
-	 * @return
+	 * @return テーブル定義
 	 */
 	public TableDefine column(HashMap<String, ?> values)
 	{
@@ -78,7 +78,6 @@ public abstract class TableDefine extends AbstractDefine<TableData>
 	/**
 	 * レコード登録を行うオペレーションオブジェクトを生成します。
 	 *
-	 * @return
 	 */
 	public Operation build()
 	{
@@ -88,7 +87,7 @@ public abstract class TableDefine extends AbstractDefine<TableData>
 	/**
 	 * 現在設定されている属性値を取得します。
 	 *
-	 * @return
+	 * @return 構築したデータセット
 	 */
 	public Object getValue(String name)
 	{
@@ -98,7 +97,7 @@ public abstract class TableDefine extends AbstractDefine<TableData>
 	/**
 	 * 現在設定されている属性値を取得します。
 	 *
-	 * @return
+	 * @return 構築したデータセット
 	 */
 	public TableData getValues()
 	{

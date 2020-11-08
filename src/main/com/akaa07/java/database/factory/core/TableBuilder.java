@@ -9,16 +9,24 @@ public class TableBuilder extends AbstractBuilder<TableData>
 	/** テーブル定義 */
 	private TableDefine def = null;
 
+	/** データセットのスタック */
+	private StackBox stackbox = null;
+
 	/**
 	 * コンストラクタ
 	 *
+	 * @param destination	データソース
+	 * @param defineClass	テーブル定義クラス
+	 * @param stackbox		データセットのスタック
 	 * @return void
 	 */
-	public TableBuilder(DataSourceDestination destination, Class<? extends TableDefine> defineClass) throws Exception
+	public TableBuilder(DataSourceDestination destination, Class<? extends TableDefine> defineClass, StackBox stackbox) throws Exception
 	{
 		this.dest = destination;
 
-		this.def = (TableDefine) TableDefine.forClass(defineClass);
+		this.stackbox = stackbox;
+
+		this.def = (TableDefine) TableDefine.forClass(defineClass, stackbox);
 	}
 
 	/**
@@ -34,9 +42,9 @@ public class TableBuilder extends AbstractBuilder<TableData>
 	/**
 	 * テーブル定義に登録されたデータセットの状態にします。 属性値が渡された場合、その属性値が優先されます。
 	 *
-	 * @param name
-	 * @param values
-	 * @return
+	 * @param name データセット名
+	 * @param values 設定する属性値のマップ
+	 * @return ビルダ
 	 * @throws Exception
 	 */
 	public TableBuilder state(String name, HashMap<String, ?> values) throws Exception
@@ -46,6 +54,16 @@ public class TableBuilder extends AbstractBuilder<TableData>
 		def.column(values);
 
 		return this;
+	}
+
+	/**
+	 * データセットを蓄積し、データビルドを終了します。
+	 *
+	 * @return void
+	 */
+	public void stack()
+	{
+		stackbox.stack(this);
 	}
 
 	/**

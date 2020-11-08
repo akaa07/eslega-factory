@@ -34,11 +34,21 @@ public class PatternData
 	 * レコードを返却します。
 	 *
 	 * @param tableName
-	 * @return
+	 * @return 構築したデータセットのレコード
 	 */
 	public ArrayList<TableData> getRecords(String tableName)
 	{
 		return tables.get(tableName);
+	}
+
+	/**
+	 * そのまま返却
+	 *
+	 * @return テーブル定義リスト
+	 */
+	protected HashMap<String, ArrayList<TableData>> getRawData()
+	{
+		return tables;
 	}
 
 }
