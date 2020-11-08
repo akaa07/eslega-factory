@@ -7,7 +7,7 @@ public class Project extends TableDefine
 	/** テーブル名 */
 	public final static String TABLE_NAME = "project";
 
-	public final static String ID = "id";
+	public final static String ID = "project_id";
 	public final static String DEPARTMENT_ID = "department_id";
 	public final static String NAME = "name";
 

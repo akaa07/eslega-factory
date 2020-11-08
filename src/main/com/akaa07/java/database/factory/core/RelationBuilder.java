@@ -5,32 +5,32 @@ import java.util.HashMap;
 
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 
-public class PatternBuilder extends AbstractBuilder<PatternData>
+public class RelationBuilder extends AbstractBuilder<RelationData>
 {
-	/** パターン定義 */
-	private PatternDefine def = null;
+	/** リレーション定義 */
+	private RelationDefine def = null;
 
 	/**
 	 * コンストラクタ
 	 *
 	 * @param destination	データソース
-	 * @param defineClass	パターン定義クラス
+	 * @param defineClass	リレーション定義クラス
 	 * @param stackbox		データセットのスタック
 	 * @return void
 	 */
-	public PatternBuilder(DataSourceDestination destination, Class<? extends AbstractDefine<PatternData>> defineClass, StackBox stackbox)
+	public RelationBuilder(DataSourceDestination destination, Class<? extends AbstractDefine<RelationData>> defineClass, StackBox stackbox)
 			throws Exception
 	{
 		this.dest = destination;
-		this.def = (PatternDefine) PatternDefine.forClass(defineClass, stackbox);
+		this.def = (RelationDefine) RelationDefine.forClass(defineClass, stackbox);
 	}
 
 	/**
-	 * パターン定義を返却します。
+	 * リレーション定義を返却します。
 	 *
-	 * @return PatternDefine
+	 * @return RelationDefine
 	 */
-	protected AbstractDefine<PatternData> getDefine()
+	protected AbstractDefine<RelationData> getDefine()
 	{
 		return def;
 	}
@@ -63,9 +63,9 @@ public class PatternBuilder extends AbstractBuilder<PatternData>
 	 * テーブル定義に登録されたデータセットの状態にします。
 	 *
 	 * @param name
-	 * @return PatternBuilder
+	 * @return RelationBuilder
 	 */
-	public PatternBuilder state(String name) throws Exception
+	public RelationBuilder state(String name) throws Exception
 	{
 		// stateが1つのステートメントで2回以上呼び出されたときにテーブルが重複してしまうのを防ぐ。
 		def.clear();
@@ -82,7 +82,7 @@ public class PatternBuilder extends AbstractBuilder<PatternData>
 	public final class Table
 	{
 		/** ビルダークラス fluent interfaceを実現するために保持する。 */
-		PatternBuilder builder;
+		RelationBuilder builder;
 
 		/** テーブルリスト */
 		ArrayList<TableDefine> tables;
@@ -93,7 +93,7 @@ public class PatternBuilder extends AbstractBuilder<PatternData>
 		 * @param builder
 		 * @param tables
 		 */
-		public Table(PatternBuilder builder, ArrayList<TableDefine> tables)
+		public Table(RelationBuilder builder, ArrayList<TableDefine> tables)
 		{
 			this.builder = builder;
 			this.tables = tables;
@@ -143,9 +143,9 @@ public class PatternBuilder extends AbstractBuilder<PatternData>
 		/**
 		 * テーブル情報のセットアップを終了します。
 		 *
-		 * @return PatternBuilder
+		 * @return RelationBuilder
 		 */
-		public PatternBuilder end()
+		public RelationBuilder end()
 		{
 			return builder;
 		}

@@ -2,9 +2,9 @@ package com.akaa07.java.database.factory;
 
 import javax.sql.DataSource;
 
-import com.akaa07.java.database.factory.core.PatternBuilder;
-import com.akaa07.java.database.factory.core.PatternData;
-import com.akaa07.java.database.factory.core.PatternDefine;
+import com.akaa07.java.database.factory.core.RelationBuilder;
+import com.akaa07.java.database.factory.core.RelationData;
+import com.akaa07.java.database.factory.core.RelationDefine;
 import com.akaa07.java.database.factory.core.StackBox;
 import com.akaa07.java.database.factory.core.TableBuilder;
 import com.akaa07.java.database.factory.core.TableDefine;
@@ -42,15 +42,15 @@ public class Factory
 	}
 
 	/**
-	 * パターンのデータセット構築を開始します。
+	 * リレーションのデータセット構築を開始します。
 	 *
-	 * @param defineClass パターン定義のクラスオブジェクト
-	 * @return PatternBuilder
+	 * @param defineClass リレーション定義のクラスオブジェクト
+	 * @return RelationBuilder
 	 * @throws Exception
 	 */
-	public PatternBuilder pattern(Class<? extends PatternDefine> defineClass) throws Exception
+	public RelationBuilder relation(Class<? extends RelationDefine> defineClass) throws Exception
 	{
-		return new PatternBuilder(destination, defineClass, stackbox);
+		return new RelationBuilder(destination, defineClass, stackbox);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class Factory
 	 *
 	 * @return 構築したデータセット
 	 */
-	public PatternData save()
+	public RelationData save()
 	{
 		return stackbox.save();
 	}
@@ -78,7 +78,7 @@ public class Factory
 	 *
 	 * @return 構築したデータセット
 	 */
-	public PatternData make()
+	public RelationData make()
 	{
 		return stackbox.make();
 	}

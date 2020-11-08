@@ -25,9 +25,9 @@ public class ProjectMember extends TableDefine
 	{
 		String projectId = this.fakerRegexify("[a-z0-9]{16}");
 
-		if (this.stackbox.contains(Project.TABLE_NAME))
+		if (this.stackbox.getKeys(ProjectMember.PROJECT_ID).length > 0)
 		{
-			projectId = this.stackbox.getTable(Project.TABLE_NAME).get(0).getString(Project.ID);
+			projectId = this.stackbox.getKeys(ProjectMember.PROJECT_ID)[0];
 		}
 
 		String employeeId = this.fakerRegexify("[a-z0-9]{10}");

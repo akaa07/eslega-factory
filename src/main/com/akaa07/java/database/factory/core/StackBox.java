@@ -38,7 +38,7 @@ public class StackBox
 	 */
 	public void stack(TableDefine p_def)
 	{
-		PatternDefine tmp = new TmpPatternDefine();
+		RelationDefine tmp = new TmpRelationDefine();
 
 		tmp.add(p_def);
 
@@ -46,11 +46,11 @@ public class StackBox
 	}
 
 	/**
-	 * パターン定義を保持する。
+	 * リレーション定義を保持する。
 	 *
-	 * @param p_def パターン定義
+	 * @param p_def リレーション定義
 	 */
-	public void stack(PatternDefine p_def)
+	public void stack(RelationDefine p_def)
 	{
 		for (String tableName : p_def.getTableDefineList().keySet())
 		{
@@ -68,23 +68,13 @@ public class StackBox
 	}
 
 	/**
-	 * ビルダーからテーブル定義を保持する。
+	 * ビルダーからリレーション定義を保持する。
 	 *
-	 * @param builder テーブル定義ビルダー
+	 * @param builder リレーション定義ビルダー
 	 */
-	public void stack(TableBuilder builder)
+	public void stack(RelationBuilder builder)
 	{
-		this.stack((TableDefine) builder.getDefine());
-	}
-
-	/**
-	 * ビルダーからパターン定義を保持する。
-	 *
-	 * @param builder パターン定義ビルダー
-	 */
-	public void stack(PatternBuilder builder)
-	{
-		this.stack((PatternDefine) builder.getDefine());
+		this.stack((RelationDefine) builder.getDefine());
 	}
 
 	/**
@@ -101,10 +91,10 @@ public class StackBox
 	 *
 	 * @return 構築したデータセット
 	 */
-	public PatternData save()
+	public RelationData save()
 	{
-		TmpBuilder tmpBuilder = new TmpBuilder(new TmpPatternDefine(tables));
-		return (PatternData) tmpBuilder.save();
+		TmpBuilder tmpBuilder = new TmpBuilder(new TmpRelationDefine(tables));
+		return (RelationData) tmpBuilder.save();
 	}
 
 	/**
@@ -112,10 +102,10 @@ public class StackBox
 	 *
 	 * @return 構築したデータセット
 	 */
-	public PatternData make()
+	public RelationData make()
 	{
-		TmpBuilder tmpBuilder = new TmpBuilder(new TmpPatternDefine(tables));
-		return (PatternData) tmpBuilder.make();
+		TmpBuilder tmpBuilder = new TmpBuilder(new TmpRelationDefine(tables));
+		return (RelationData) tmpBuilder.make();
 	}
 
 	/**
@@ -143,7 +133,7 @@ public class StackBox
 	/**
 	 * 指定されたカラム名に一致するデータを返却する。
 	 *
-	 * return キー情報
+	 * @return キー情報
 	 */
 	public String[] getKeys(String columnName)
 	{
@@ -174,23 +164,23 @@ public class StackBox
 			}
 		}
 
-		return (String[]) keys.toArray();
+		return keys.toArray(new String[keys.size()]);
 	}
 
 	/**
-	 * PatternDefineを一時的に使う用
-	 * TableDefineからの変換や、PatternBuilderの生成に利用するなど。
+	 * RelationDefineを一時的に使う用
+	 * TableDefineからの変換や、RelationBuilderの生成に利用するなど。
 	 *
 	 */
-	private class TmpPatternDefine extends PatternDefine
+	private class TmpRelationDefine extends RelationDefine
 	{
-		public TmpPatternDefine()
+		public TmpRelationDefine()
 		{
 		}
 
-		public TmpPatternDefine(HashMap<String, ArrayList<TableDefine>> p_tables)
+		public TmpRelationDefine(HashMap<String, ArrayList<TableDefine>> p_tables)
 		{
-			// PatternDefine.tables
+			// RelationDefine.tables
 			this.tables.putAll(p_tables);
 		}
 
@@ -204,22 +194,22 @@ public class StackBox
 	 *
 	 *
 	 */
-	private class TmpBuilder extends AbstractBuilder<PatternData>
+	private class TmpBuilder extends AbstractBuilder<RelationData>
 	{
-		private PatternDefine def;
+		private RelationDefine def;
 
-		public TmpBuilder(PatternDefine p_def)
+		public TmpBuilder(RelationDefine p_def)
 		{
 			def = p_def;
 			dest =destination;
 		}
 
 		/**
-		 * パターン定義を返却します。
+		 * リレーション定義を返却します。
 		 *
-		 * @return PatternDefine
+		 * @return RelationDefine
 		 */
-		protected AbstractDefine<PatternData> getDefine()
+		protected AbstractDefine<RelationData> getDefine()
 		{
 			return def;
 		}

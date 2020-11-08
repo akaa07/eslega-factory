@@ -57,7 +57,7 @@ public class TableBuilder extends AbstractBuilder<TableData>
 	 */
 	public void stack()
 	{
-		def.stackbox.stack(this);
+		def.stackbox.stack(def);
 	}
 
 	/**

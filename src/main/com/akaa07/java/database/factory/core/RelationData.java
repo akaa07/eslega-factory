@@ -3,7 +3,7 @@ package com.akaa07.java.database.factory.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PatternData
+public class RelationData
 {
 	/** テーブル定義リスト */
 	private final HashMap<String, ArrayList<TableData>> tables;
@@ -13,7 +13,7 @@ public class PatternData
 	 *
 	 * @param tables
 	 */
-	protected PatternData(HashMap<String, ArrayList<TableDefine>> tables)
+	protected RelationData(HashMap<String, ArrayList<TableDefine>> tables)
 	{
 		this.tables = new HashMap<String, ArrayList<TableData>>();
 

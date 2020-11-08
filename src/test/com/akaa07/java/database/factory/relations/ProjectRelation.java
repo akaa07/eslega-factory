@@ -1,10 +1,10 @@
-package com.akaa07.java.database.factory.patterns;
+package com.akaa07.java.database.factory.relations;
 
-import com.akaa07.java.database.factory.core.PatternDefine;
+import com.akaa07.java.database.factory.core.RelationDefine;
 import com.akaa07.java.database.factory.tables.Project;
 import com.akaa07.java.database.factory.tables.ProjectMember;
 
-public class ProjectPattern extends PatternDefine
+public class ProjectRelation extends RelationDefine
 {
 	public void status_default() throws Exception
 	{

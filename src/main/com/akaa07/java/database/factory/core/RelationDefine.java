@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import com.ninja_squad.dbsetup.operation.Operation;
 
-public abstract class PatternDefine extends AbstractDefine<PatternData>
+public abstract class RelationDefine extends AbstractDefine<RelationData>
 {
 	/** テーブル定義リスト */
 	protected final HashMap<String, ArrayList<TableDefine>> tables;
@@ -15,7 +15,7 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	/**
 	 * コンストラクタ
 	 */
-	protected PatternDefine()
+	protected RelationDefine()
 	{
 		tables = new HashMap<String, ArrayList<TableDefine>>();
 	}
@@ -26,7 +26,7 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	 * @param tableDefine
 	 * @return
 	 */
-	public PatternDefine add(TableDefine... tableDefine)
+	public RelationDefine add(TableDefine... tableDefine)
 	{
 		for (TableDefine def : tableDefine)
 		{
@@ -72,7 +72,7 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	/**
 	 * テーブル定義のリストを返却します。
 	 *
-	 * @see com.akaa07.java.database.factory.core.PatternBuilder#table
+	 * @see com.akaa07.java.database.factory.core.RelationBuilder#table
 	 * @return テーブル定義のリスト
 	 */
 	protected HashMap<String, ArrayList<TableDefine>> getTableDefineList()
@@ -83,7 +83,7 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	/**
 	 * テーブル定義のリストを返却します。
 	 *
-	 * @see com.akaa07.java.database.factory.core.PatternBuilder#table
+	 * @see com.akaa07.java.database.factory.core.RelationBuilder#table
 	 * @param tableName
 	 * @return テーブル定義のリスト
 	 */
@@ -127,9 +127,9 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	 * @see com.akaa07.java.database.factory.core.AbstractBuilder#make
 	 * @return 構築したデータセット
 	 */
-	public PatternData getValues()
+	public RelationData getValues()
 	{
-		return new PatternData(tables);
+		return new RelationData(tables);
 	}
 
 }
