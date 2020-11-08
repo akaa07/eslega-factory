@@ -1,4 +1,4 @@
-package com.eslega.factory.core;
+package com.akaa07.java.database.factory.core;
 
 import static com.ninja_squad.dbsetup.Operations.*;
 
@@ -7,15 +7,15 @@ import java.util.HashMap;
 
 import com.ninja_squad.dbsetup.operation.Operation;
 
-public abstract class PatternDefine extends AbstractDefine<PatternData>
+public abstract class RelationDefine extends AbstractDefine<RelationData>
 {
 	/** テーブル定義リスト */
-	private final HashMap<String, ArrayList<TableDefine>> tables;
+	protected final HashMap<String, ArrayList<TableDefine>> tables;
 
 	/**
 	 * コンストラクタ
 	 */
-	public PatternDefine()
+	protected RelationDefine()
 	{
 		tables = new HashMap<String, ArrayList<TableDefine>>();
 	}
@@ -26,7 +26,7 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	 * @param tableDefine
 	 * @return
 	 */
-	public PatternDefine add(TableDefine... tableDefine)
+	public RelationDefine add(TableDefine... tableDefine)
 	{
 		for (TableDefine def : tableDefine)
 		{
@@ -66,15 +66,26 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	 */
 	public TableDefine table(Class<? extends TableDefine> defineClass) throws Exception
 	{
-		return (TableDefine) TableDefine.forClass(defineClass);
+		return (TableDefine) TableDefine.forClass(defineClass, stackbox);
 	}
 
 	/**
 	 * テーブル定義のリストを返却します。
 	 *
-	 * @see com.eslega.factory.core.PatternBuilder#table
+	 * @see com.akaa07.java.database.factory.core.RelationBuilder#table
+	 * @return テーブル定義のリスト
+	 */
+	protected HashMap<String, ArrayList<TableDefine>> getTableDefineList()
+	{
+		return tables;
+	}
+
+	/**
+	 * テーブル定義のリストを返却します。
+	 *
+	 * @see com.akaa07.java.database.factory.core.RelationBuilder#table
 	 * @param tableName
-	 * @return
+	 * @return テーブル定義のリスト
 	 */
 	protected ArrayList<TableDefine> getTableDefineList(String tableName)
 	{
@@ -84,7 +95,7 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	/**
 	 * レコード登録を行うオペレーションオブジェクトを生成します。
 	 *
-	 * @see com.eslega.factory.core.AbstractBuilder#save
+	 * @see com.akaa07.java.database.factory.core.AbstractBuilder#save
 	 * @return
 	 */
 	public Operation build()
@@ -112,13 +123,13 @@ public abstract class PatternDefine extends AbstractDefine<PatternData>
 	/**
 	 * 現在設定されている属性値を取得します。
 	 *
-	 * @see com.eslega.factory.core.AbstractBuilder#save
-	 * @see com.eslega.factory.core.AbstractBuilder#make
-	 * @return
+	 * @see com.akaa07.java.database.factory.core.AbstractBuilder#save
+	 * @see com.akaa07.java.database.factory.core.AbstractBuilder#make
+	 * @return 構築したデータセット
 	 */
-	public PatternData getValues()
+	public RelationData getValues()
 	{
-		return new PatternData(tables);
+		return new RelationData(tables);
 	}
 
 }

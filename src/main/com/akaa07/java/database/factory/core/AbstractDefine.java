@@ -1,5 +1,6 @@
-package com.eslega.factory.core;
+package com.akaa07.java.database.factory.core;
 
+import java.lang.reflect.Constructor;
 import java.util.Locale;
 
 import com.github.javafaker.Faker;
@@ -14,20 +15,31 @@ public abstract class AbstractDefine<T>
 	protected static FakeValuesService fakeValuesService = new FakeValuesService(new Locale("ja-JP"),
 			new RandomService());
 
+	/** データ持ち回り用 */
+	public StackBox stackbox;
+
 	/**
 	 * データセット定義のインスタンスを生成します。
 	 *
 	 * @return
 	 */
-	public static AbstractDefine<?> forClass(Class<? extends AbstractDefine<?>> defineClass) throws Exception
+	public static AbstractDefine<?> forClass(Class<? extends AbstractDefine<?>> defineClass, StackBox stackbox) throws Exception
 	{
 		// データセット定義をインスタンス化する
+		Constructor<?> cons = defineClass.getDeclaredConstructor();
+		AbstractDefine<?> def = (AbstractDefine<?>) cons.newInstance();
+		def.setStackBox(stackbox);
+
 		// 初期値で登録する際にわざわざstateメソッドを呼び出さなくて良いようにするため、
 		// status_defaultメソッドを固定で呼び出す。
-		AbstractDefine<?> def = (AbstractDefine<?>) defineClass.newInstance();
 		def.status_default();
 
 		return def;
+	}
+
+	protected void setStackBox(StackBox stackbox)
+	{
+		this.stackbox = stackbox;
 	}
 
 	/**
@@ -51,7 +63,7 @@ public abstract class AbstractDefine<T>
 	/**
 	 * 現在設定されている属性値を取得します。
 	 *
-	 * @return
+	 * @return 構築したデータセット
 	 */
 	abstract T getValues();
 

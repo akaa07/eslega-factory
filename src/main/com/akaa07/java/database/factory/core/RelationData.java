@@ -1,9 +1,9 @@
-package com.eslega.factory.core;
+package com.akaa07.java.database.factory.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PatternData
+public class RelationData
 {
 	/** テーブル定義リスト */
 	private final HashMap<String, ArrayList<TableData>> tables;
@@ -13,7 +13,7 @@ public class PatternData
 	 *
 	 * @param tables
 	 */
-	protected PatternData(HashMap<String, ArrayList<TableDefine>> tables)
+	protected RelationData(HashMap<String, ArrayList<TableDefine>> tables)
 	{
 		this.tables = new HashMap<String, ArrayList<TableData>>();
 
@@ -34,11 +34,21 @@ public class PatternData
 	 * レコードを返却します。
 	 *
 	 * @param tableName
-	 * @return
+	 * @return 構築したデータセットのレコード
 	 */
 	public ArrayList<TableData> getRecords(String tableName)
 	{
 		return tables.get(tableName);
+	}
+
+	/**
+	 * そのまま返却
+	 *
+	 * @return テーブル定義リスト
+	 */
+	protected HashMap<String, ArrayList<TableData>> getRawData()
+	{
+		return tables;
 	}
 
 }

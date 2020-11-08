@@ -1,4 +1,4 @@
-package com.eslega.factory.core;
+package com.akaa07.java.database.factory.core;
 
 import java.lang.reflect.Method;
 
@@ -46,7 +46,7 @@ public abstract class AbstractBuilder<T>
 	/**
 	 * 構築されたデータセットをDBに登録します。
 	 *
-	 * @return HashMap 登録したデータセット
+	 * @return 登録したデータセット
 	 */
 	public T save()
 	{
@@ -60,7 +60,7 @@ public abstract class AbstractBuilder<T>
 	/**
 	 * 構築されたデータセットを返却します。 DB登録は行いません。
 	 *
-	 * @return HashMap 登録したデータセット
+	 * @return 登録したデータセット
 	 */
 	public T make()
 	{

@@ -1,10 +1,10 @@
 # Overview
 
-With Eslega Factory, test data creation can be patterned and generated dynamically.
+With Database Factory, test data creation can be patterned and generated dynamically.
 You are freed from preparing data in advance, deleting data, and from extensive modification of test classes due to DB model changes.
 Factory that wraps DBSetup makes it possible to create test classes for data setup that is smooth and highly cohesive.
 
-Eslega Factoryを使用すると、テストデータの作成をパターン化して動的に生成することができます。
+Database Factoryを使用すると、テストデータの作成をパターン化して動的に生成することができます。
 事前にXMLでデータを準備することも、データを削除することからも、DBモデルの変更によるテストクラスの大規模な修正もいりません。
 DBSetupをラップしたFactoryにより、スムーズで凝集度の高いデータセットアップ用のテストクラスを作成することが可能になります。
 
@@ -19,7 +19,7 @@ Create a table definition that you want to use in the test.
 ```
 package your.project.package.tables;
 
-import com.eslega.factory.core.TableDefine;
+import com.akaa07.java.database.factory.core.TableDefine;
 
 public class Employee extends TableDefine
 {
@@ -66,7 +66,7 @@ public class Employee extends TableDefine
 	{
 		// Set the data source in advance.
  		// It is convenient to set with common initial processing.
-		Factory.setDataSource(datasource);
+		Factory factory = new Factory(datasource);
 		
 		// Data is generated with the contents set in "status_default".
 		// You can customize the data with the "column" method.
@@ -79,7 +79,7 @@ public class Employee extends TableDefine
 
 # License
 
-Eslega Factory is released under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).
+Database Factory is released under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).
 
 The MIT License
 
